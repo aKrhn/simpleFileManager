@@ -10,7 +10,7 @@
 	<body>
 		<div class="container">    
 		<br>
-		 <h3 align="center">List Uploaded Files</h3>
+		 <h3 align="center">List of Uploaded Files</h3>
 		<br>
 		 @yield('main')
 		</div>

@@ -13,7 +13,7 @@ class CrudController extends Controller
 	 */
 	public function index()
 	{
-		$data = Crud::latest()->paginate(5);
+		$data = Crud::orderBy('id', 'DESC')->paginate(5);
 		return view('index', compact('data'))->with('i', (request()->input('page', 1) - 1) * 5);
 	}
 
@@ -43,7 +43,7 @@ class CrudController extends Controller
 		);
 		$file = $request->file('file');
 		$new_name = rand(). '.' . $file->getClientOriginalExtension();
-		$file->move(public_path('images'), $new_name); //storage_path
+		$file->move(public_path('files'), $new_name); //storage_path
 		$formData = array(
 			'file_name' => $request->file_name,
 			'description' => $request->description,
@@ -74,7 +74,8 @@ class CrudController extends Controller
 	 */
 	public function edit($id)
 	{
-		//
+		$data = Crud::findOrFail($id);
+		return view('edit', compact('data'));
 	}
 
 	/**
@@ -86,7 +87,32 @@ class CrudController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		//
+		$updated_file = $request->hidden_file;
+		$file = $request->file('file');
+		if($file != '')
+		{
+			$this->validate($request,	[
+				'file_name' => 'required',
+				'description' => 'required', 
+				'file' => 'required',  
+			]);
+			$updated_file = rand() . '.' . $file->getClientOriginalExtension();
+			$file->move(public_path('files'), $updated_file);
+		} else
+		{
+			$this->validate($request,	[
+				'file_name' => 'required',
+				'description' => 'required', 
+			]);
+		}
+		$formData = array(
+			'file_name' => $request->file_name,
+			'description' => $request->description,
+			'file' => $updated_file,
+		);
+
+		Crud::whereId($id)->update($formData);
+		return redirect('crud')->with('success', 'File updated successfully!');
 	}
 
 	/**
@@ -97,6 +123,8 @@ class CrudController extends Controller
 	 */
 	public function destroy($id)
 	{
-		//
+		$data = Crud::findOrFail($id);
+		$data->delete();
+		return redirect('crud')->with('success', 'File deleted successfully!');
 	}
 }

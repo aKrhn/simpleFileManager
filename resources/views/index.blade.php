@@ -22,15 +22,26 @@
 @foreach($data as $row)
 	<tr>
 		<td>
-			<a src="{{ URL::to('/') }}/images/{{ $row->file }}" class="img-thumbnail" width="75" />
+			<a href="{{ URL::to('/') }}/files/{{ $row->file }}">
+				{{ $row->file }}
+			<a/>
 		</td>
-	 <td>{{ $row->file_name }}</td>
-	 <td>{{ $row->description }}</td>
-	 <td>
-	 		<a href="{{ route('crud.show', $row->id) }}" class="btn btn-primary">
-	 			Show
-	 		</a>
-	 </td>
+		<td>{{ $row->file_name }}</td>
+		<td>{{ $row->description }}</td>
+		<td>
+	 		<form action="{{ route('crud.destroy', $row->id) }}" method="post">
+		 		<a href="{{ route('crud.show', $row->id) }}" class="btn btn-primary">
+		 			Show
+		 		</a>
+		 		<a href="{{ route('crud.edit', $row->id) }}" class="btn btn-warning">
+		 			Edit
+		 		</a>
+					{{ csrf_field() }} {{ method_field('DELETE') }}
+				<button type="submit" class="btn btn-danger">
+					Delete
+				</button>
+			</form>
+		</td>
 	</tr>
 @endforeach
 </table>

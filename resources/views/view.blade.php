@@ -8,9 +8,9 @@
 		</a>
 	</div>
 	<br>
-	<button class="btn btn-primary">
-	<a href="{{ URL::to('/') }}/images/{{$data->file}}" class="file-thumbnail"/></a> 
-	</button>
+	<a href="{{ URL::to('/') }}/files/{{$data->file}}" class="file-thumbnail"/>
+		{{ $data->file }}
+	</a> 
 	<h3>File Name - {{ $data->file_name }}</h3>
 	<h3>Description - {{ $data->description }}</h3>
 </div>
