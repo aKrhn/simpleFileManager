@@ -38,7 +38,7 @@
 </div>
 <br><br><br>
 <div class="form-group">
-	<label class="col-md-4 text-right">Select Profile Image</label>
+	<label class="col-md-4 text-right">Select File</label>
 	<div class="col-md-8">
 		<input type="file" name="file" />
 			<img src="{{ URL::to('/') }}/files/{{ $data->file }}" class="img-thumbnail" width="100" />
